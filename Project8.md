@@ -63,4 +63,35 @@ sudo a2enmod lbmethod_bytraffic
 sudo systemctl restart apache2
 
 ##### Output
+
+
+
+
+
+![5](https://user-images.githubusercontent.com/78465247/111724697-99498380-885d-11eb-9c49-b8a96250b32d.PNG)
+
+![10](https://user-images.githubusercontent.com/78465247/111724748-b54d2500-885d-11eb-9e0a-3fe1beedba8b.PNG)
+
+![11](https://user-images.githubusercontent.com/78465247/111724754-b5e5bb80-885d-11eb-9021-7c0d79b8c83c.PNG)
+
+![12](https://user-images.githubusercontent.com/78465247/111724755-b7af7f00-885d-11eb-8e39-0c816f456f24.PNG)
+
+![13](https://user-images.githubusercontent.com/78465247/111724769-c302aa80-885d-11eb-8d8f-9ec5fe27e1b8.PNG)
+
+![14](https://user-images.githubusercontent.com/78465247/111724775-c4cc6e00-885d-11eb-88d1-82ebadc28340.PNG)
+
+![15](https://user-images.githubusercontent.com/78465247/111724785-c72ec800-885d-11eb-976c-ef295ca63975.PNG)
+
+![16](https://user-images.githubusercontent.com/78465247/111724790-cac24f00-885d-11eb-8a78-c1a9365807fd.PNG)
+
+![5](https://user-images.githubusercontent.com/78465247/111724794-cc8c1280-885d-11eb-8af3-e358f590c883.PNG)
+
+![6](https://user-images.githubusercontent.com/78465247/111724802-d0b83000-885d-11eb-8aa3-d02827d81620.PNG)
+
+![7](https://user-images.githubusercontent.com/78465247/111724811-d57ce400-885d-11eb-9bf0-484a7d9c6d37.PNG)
+
+![8](https://user-images.githubusercontent.com/78465247/111724818-d746a780-885d-11eb-9340-8efc49734d55.PNG)
+
+![9](https://user-images.githubusercontent.com/78465247/111724821-da419800-885d-11eb-9880-8ad1763c156d.PNG)
+
  
