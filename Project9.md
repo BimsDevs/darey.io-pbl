@@ -10,5 +10,8 @@ According to CircleCI, Continuous integration (CI) is a software development str
  
 Task
 Enhance the architecture prepared in Project 8 by adding a Jenkins server, configure a job to automatically deploy source codes changes from Git to NFS server.
-Here is how your update architecture will look like upon competion of this project:
+
+Below is our target architecture output
+
+![1](https://user-images.githubusercontent.com/78465247/111720720-68b21b80-8856-11eb-8c4f-f24036085e2c.PNG)
 
