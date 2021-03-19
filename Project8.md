@@ -7,7 +7,7 @@ A load balancer intelligently distributes traffic from clients across multiple s
 
 How it works:
 
-![1](https://user-images.githubusercontent.com/78465247/111721655-44573e80-8858-11eb-9110-a772cd0399bf.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111721655-44573e80-8858-11eb-9110-a772cd0399bf.PNG" width="800" height="400">
 
 When we access a website in the Internet we use an URL and we do not really know how many servers are out there serving our requests, this complexity is hidden from a regular user, but in case of websites that are being visited by millions of users per day (like Google or Reddit) it is impossible to serve all the users from a single Web Server (it is also applicable to databases, but for now we will not focus on distributed DBs).
 Each URL contains a domain name part, which is translated (resolved) to the IP address of a target server that will serve requests when opening a website on the Internet. Translation (resolution) of domain names is performed by DNS servers, the most commonly used one has a public IP address 8.8.8.8 and belongs to Google. You can try to query it with nslookup command:
@@ -25,7 +25,7 @@ In this project we will enhance our Tooling Website solution by adding a Load Ba
 Task
 Deploy and configure an Apache Load Balancer for Tooling Website solution on a separate Ubuntu EC2 intance. Make sure that users can be served by Web servers through the Load Balancer.We will implement this solution with 2 Web Servers, the approach will be the same for 3 and more Web Servers.
 
-![2](https://user-images.githubusercontent.com/78465247/111722014-ed9e3480-8858-11eb-9be0-574cd16af378.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111722014-ed9e3480-8858-11eb-9be0-574cd16af378.PNG" width="800" height="400">
 
 Prerequisites\
 Ensure that the instances below are created on AWS: 
@@ -34,9 +34,9 @@ Ensure that the instances below are created on AWS:
 2.  One MySQL DB Server for Apache LB (based on Ubuntu 20.04)
 3.  One RHEL8 NFS server
 
-![3](https://user-images.githubusercontent.com/78465247/111722040-f7c03300-8858-11eb-8bf4-2c0dc122224d.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111722040-f7c03300-8858-11eb-8bf4-2c0dc122224d.PNG" width="800" height="400">
 
-![4](https://user-images.githubusercontent.com/78465247/111722326-8af96880-8859-11eb-8d65-e578ac97b617.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111722326-8af96880-8859-11eb-8d65-e578ac97b617.PNG" width="800" height="300">
 
 ### STEPS:
  
@@ -64,7 +64,7 @@ sudo systemctl restart apache2
 
 ### Output
 
-![5](https://user-images.githubusercontent.com/78465247/111724697-99498380-885d-11eb-9c49-b8a96250b32d.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111724697-99498380-885d-11eb-9c49-b8a96250b32d.PNG" width="600" height="500">
 
 d.  Verify that apache2 is up and running:
  
@@ -72,7 +72,7 @@ sudo systemctl status apache2
 
 #### Output
 
-![6](https://user-images.githubusercontent.com/78465247/111726639-3954dc00-8861-11eb-8265-a7236b62c8c8.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111726639-3954dc00-8861-11eb-8265-a7236b62c8c8.PNG" width="700" height="300">
 
 #### 2.  Configure load balancing
 
@@ -100,7 +100,7 @@ sudo vi /etc/apache2/sites-available/000-default.conf
 
 #### Pre Configuration Output
 
-![7](https://user-images.githubusercontent.com/78465247/111726906-b8e2ab00-8861-11eb-9df0-21787161ecd3.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111726906-b8e2ab00-8861-11eb-9df0-21787161ecd3.PNG" width="700" height="400">
 
 ##### Post Configuration:
 
@@ -133,9 +133,10 @@ BalancerMember http://172.31.16.41:80 loadfactor=5 timeout=1
 
 #### Output
 
-![8](https://user-images.githubusercontent.com/78465247/111727091-242c7d00-8862-11eb-8c18-45359d25f643.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727091-242c7d00-8862-11eb-8c18-45359d25f643.PNG" width="700" height="400">
 
-##### Terms:
+
+#### Terms:
 bytraffic: balancing method will distribute incoming load between your Web Servers according to current traffic load. \ 
 loadfactor: We can control in which proportion the traffic must be distributed by loadfactor parameter.\
  
@@ -154,11 +155,11 @@ http://3.11.70.43 /index.php
 
 ##### Output
 
-![9](https://user-images.githubusercontent.com/78465247/111727176-4a521d00-8862-11eb-99ca-8b36ec353b59.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727176-4a521d00-8862-11eb-99ca-8b36ec353b59.PNG" width="500" height="400">
 
-![10](https://user-images.githubusercontent.com/78465247/111727188-5047fe00-8862-11eb-9ecb-beba412d2eeb.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727188-5047fe00-8862-11eb-9ecb-beba412d2eeb.PNG" width="500" height="400">
 
-![11](https://user-images.githubusercontent.com/78465247/111727200-54741b80-8862-11eb-8bd9-99752f5fddf5.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727200-54741b80-8862-11eb-8bd9-99752f5fddf5.PNG" width="500" height="400">
 
 
 Note: If in the Project-7 you mounted /var/log/httpd/ from your Web Servers to the NFS server - unmount them and make sure that each Web Server has its own log directory.
@@ -168,7 +169,8 @@ sudo tail -f /var/log/httpd/access_log
  
 #### Output:
 
-![12](https://user-images.githubusercontent.com/78465247/111727267-75d50780-8862-11eb-9ab9-5080e20dac3a.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727267-75d50780-8862-11eb-9ab9-5080e20dac3a.PNG" width="700" height="400">
+
 
 Try to refresh the browser page http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php several times and make sure that both servers receive HTTP GET requests from your LB - new records must appear in each server’s log file. The number of requests to each server will be approximately the same since we set loadfactor to the same value for both servers - it means that traffic will be disctributed evenly between them.
  
@@ -193,7 +195,7 @@ Add 2 records into this file with Local IP address and arbitrary name for both o
 
 #### Output
 
-![13](https://user-images.githubusercontent.com/78465247/111727343-a026c500-8862-11eb-9c3a-89fb00f09ee2.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727343-a026c500-8862-11eb-9c3a-89fb00f09ee2.PNG" width="700" height="400">
 
 
 Now let’s update the LB config file with those names instead of IP addresses.
@@ -206,7 +208,7 @@ BalancerMember http://Web2:80 loadfactor=5 timeout=1
 
 #### Output
 
-![14](https://user-images.githubusercontent.com/78465247/111727375-afa60e00-8862-11eb-8a70-106e759d08ec.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727375-afa60e00-8862-11eb-8a70-106e759d08ec.PNG" width="800" height="500">
 
 
 Now, curl both Web Servers from LB locally 
@@ -215,16 +217,16 @@ curl http://Web1\
 curl http://Web2
 
 
-![15](https://user-images.githubusercontent.com/78465247/111727467-d8c69e80-8862-11eb-8296-d3ccf22e7b22.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727467-d8c69e80-8862-11eb-8296-d3ccf22e7b22.PNG" width="700" height="400">
 
-![16](https://user-images.githubusercontent.com/78465247/111727481-debc7f80-8862-11eb-84db-62000fb3331b.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111727481-debc7f80-8862-11eb-84db-62000fb3331b.PNG" width="700" height="400">
 
 This is only internal configuration and it is also local to the LB server, these names: web 1 and web 2, will neither be ‘resolvable’ from other servers internally nor from the Internet.
  
  
  
  
-Credits;
+### Credits;
  
 darey.io
 
