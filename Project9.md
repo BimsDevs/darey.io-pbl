@@ -13,5 +13,5 @@ Enhance the architecture prepared in Project 8 by adding a Jenkins server, confi
 
 Below is our target architecture output
 
-![1](https://user-images.githubusercontent.com/78465247/111720720-68b21b80-8856-11eb-8c4f-f24036085e2c.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/111720720-68b21b80-8856-11eb-8c4f-f24036085e2c.PNG" width="700" height="400">
 
