@@ -62,36 +62,186 @@ sudo a2enmod lbmethod_bytraffic
 ##### Restart apache2 service
 sudo systemctl restart apache2
 
-##### Output
-
-
-
-
+### Output
 
 ![5](https://user-images.githubusercontent.com/78465247/111724697-99498380-885d-11eb-9c49-b8a96250b32d.PNG)
 
-![10](https://user-images.githubusercontent.com/78465247/111724748-b54d2500-885d-11eb-9e0a-3fe1beedba8b.PNG)
+d.  Verify that apache2 is up and running:
+ 
+sudo systemctl status apache2
 
-![11](https://user-images.githubusercontent.com/78465247/111724754-b5e5bb80-885d-11eb-9021-7c0d79b8c83c.PNG)
+#### Output
 
-![12](https://user-images.githubusercontent.com/78465247/111724755-b7af7f00-885d-11eb-8e39-0c816f456f24.PNG)
+![6](https://user-images.githubusercontent.com/78465247/111726639-3954dc00-8861-11eb-8265-a7236b62c8c8.PNG)
 
-![13](https://user-images.githubusercontent.com/78465247/111724769-c302aa80-885d-11eb-8d8f-9ec5fe27e1b8.PNG)
+#### 2.  Configure load balancing
 
-![14](https://user-images.githubusercontent.com/78465247/111724775-c4cc6e00-885d-11eb-88d1-82ebadc28340.PNG)
+Go into the load balancing configuration file and add the below. Ensure that the web servers’ IP addresses are replaced.
+ 
+sudo vi /etc/apache2/sites-available/000-default.conf
 
-![15](https://user-images.githubusercontent.com/78465247/111724785-c72ec800-885d-11eb-976c-ef295ca63975.PNG)
+#Add this configuration into this section <VirtualHost *:80>  </VirtualHost>
+ 
+<Proxy "balancer://mycluster">
+               BalancerMember http://<WebServer1-Private-IP-Address>:80 loadfactor=5 timeout=1
+               BalancerMember http://<WebServer2-Private-IP-Address>:80 loadfactor=5 timeout=1
+               ProxySet lbmethod=bytraffic
+               # ProxySet lbmethod=byrequests
+        </Proxy>
+ 
+        ProxyPreserveHost On
+        ProxyPass / balancer://mycluster/
+        ProxyPassReverse / balancer://mycluster/
+ 
+#Restart apache server
+ 
+#sudo systemctl restart apache2
 
-![16](https://user-images.githubusercontent.com/78465247/111724790-cac24f00-885d-11eb-8a78-c1a9365807fd.PNG)
 
-![5](https://user-images.githubusercontent.com/78465247/111724794-cc8c1280-885d-11eb-8af3-e358f590c883.PNG)
+#### Pre Configuration Output
 
-![6](https://user-images.githubusercontent.com/78465247/111724802-d0b83000-885d-11eb-8aa3-d02827d81620.PNG)
+![7](https://user-images.githubusercontent.com/78465247/111726906-b8e2ab00-8861-11eb-9df0-21787161ecd3.PNG)
 
-![7](https://user-images.githubusercontent.com/78465247/111724811-d57ce400-885d-11eb-9bf0-484a7d9c6d37.PNG)
+##### Post Configuration:
 
-![8](https://user-images.githubusercontent.com/78465247/111724818-d746a780-885d-11eb-9340-8efc49734d55.PNG)
+Add the below into the load balancer configuration file:
 
-![9](https://user-images.githubusercontent.com/78465247/111724821-da419800-885d-11eb-9880-8ad1763c156d.PNG)
+BalancerMember http://<WebServer1-Private-IP-Address>:80 loadfactor=5 timeout=1
+BalancerMember http://<WebServer2-Private-IP-Address>:80 loadfactor=5 timeout=1
+
+BalancerMember http://172.31.16.162:80 loadfactor=5 timeout=1
+BalancerMember http://172.31.16.41:80 loadfactor=5 timeout=1
+
+
+
+#Add this configuration into this section <VirtualHost *:80>  </VirtualHost>
+
+<Proxy "balancer://mycluster">
+               BalancerMember http://172.31.16.162:80 loadfactor=5 timeout=1
+               BalancerMember http://172.31.16.41:80 loadfactor=5 timeout=1
+               ProxySet lbmethod=bytraffic
+               # ProxySet lbmethod=byrequests
+        </Proxy>
+
+        ProxyPreserveHost On
+        ProxyPass / balancer://mycluster/
+        ProxyPassReverse / balancer://mycluster/
+
+#Restart apache server
+
+#sudo systemctl restart apache2
+
+#### Output
+
+![8](https://user-images.githubusercontent.com/78465247/111727091-242c7d00-8862-11eb-8c18-45359d25f643.PNG)
+
+##### Terms:
+bytraffic: balancing method will distribute incoming load between your Web Servers according to current traffic load. \ 
+loadfactor: We can control in which proportion the traffic must be distributed by loadfactor parameter.\
+ 
+You can also study and try other methods, like: bybusyness, byrequests, heartbeat
+ 
+#### 3. Confirm that the configuration is working
+ 
+Try to access your LB’s public IP address or Public DNS name from your browser:
+ 
+http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php
+
+http://18.134.7.139 /index.php
+
+http://3.11.70.43 /index.php
+
+
+##### Output
+
+![9](https://user-images.githubusercontent.com/78465247/111727176-4a521d00-8862-11eb-99ca-8b36ec353b59.PNG)
+
+![10](https://user-images.githubusercontent.com/78465247/111727188-5047fe00-8862-11eb-9ecb-beba412d2eeb.PNG)
+
+![11](https://user-images.githubusercontent.com/78465247/111727200-54741b80-8862-11eb-8bd9-99752f5fddf5.PNG)
+
+
+Note: If in the Project-7 you mounted /var/log/httpd/ from your Web Servers to the NFS server - unmount them and make sure that each Web Server has its own log directory.
+Open two ssh/Putty consoles for both Web Servers and run following command:
+
+sudo tail -f /var/log/httpd/access_log
+ 
+#### Output:
+
+![12](https://user-images.githubusercontent.com/78465247/111727267-75d50780-8862-11eb-9ab9-5080e20dac3a.PNG)
+
+Try to refresh the browser page http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php several times and make sure that both servers receive HTTP GET requests from your LB - new records must appear in each server’s log file. The number of requests to each server will be approximately the same since we set loadfactor to the same value for both servers - it means that traffic will be disctributed evenly between them.
+ 
+If you have configured everything correctly - your users will not even notice that their requests are served by more than one server.
+
+### 4.  Configure Local DNS Names Resolution
+Sometimes it is tedious to remember and switch between IP addresses, especially if you have a lot of servers under your management. What we can do, is to configure local domain name resolution. The easiest way is to use /etc/hosts file, although this approach is not very scalable, but it is very easy to configure and shows the concept well. So let us configure IP address to domain name mapping for our LB.
+
+### STEPS: 
+ 
+Open this file on your LB server
+ 
+sudo vi /etc/hosts
+ 
+Add 2 records into this file with Local IP address and arbitrary name for both of your Web Servers
+ 
+<WebServer1-Private-IP-Address> Web1\
+<WebServer2-Private-IP-Address> Web2
+ 
+172.31.16.162 Web1\
+172.31.16.41 Web2
+
+#### Output
+
+![13](https://user-images.githubusercontent.com/78465247/111727343-a026c500-8862-11eb-9c3a-89fb00f09ee2.PNG)
+
+
+Now let’s update the LB config file with those names instead of IP addresses.
+
+BalancerMember http://Web1:80 loadfactor=5 timeout=1\
+BalancerMember http://Web2:80 loadfactor=5 timeout=1
+ 
+BalancerMember http://Web1:80 loadfactor=5 timeout=1\
+BalancerMember http://Web2:80 loadfactor=5 timeout=1
+
+#### Output
+
+![14](https://user-images.githubusercontent.com/78465247/111727375-afa60e00-8862-11eb-8a70-106e759d08ec.PNG)
+
+
+Now, curl both Web Servers from LB locally 
+
+curl http://Web1\
+curl http://Web2
+
+
+![15](https://user-images.githubusercontent.com/78465247/111727467-d8c69e80-8862-11eb-8296-d3ccf22e7b22.PNG)
+
+![16](https://user-images.githubusercontent.com/78465247/111727481-debc7f80-8862-11eb-84db-62000fb3331b.PNG)
+
+This is only internal configuration and it is also local to the LB server, these names: web 1 and web 2, will neither be ‘resolvable’ from other servers internally nor from the Internet.
+ 
+ 
+ 
+ 
+Credits;
+ 
+darey.io
+
+Load Balancer: https://www.nginx.com/resources/glossary/load-balancing/
+
+Layer 4 Network Load balancing: 
+https://www.nginx.com/resources/glossary/layer-4-load-balancing/
+ 
+Layer 7 Application Load Balancer: 
+https://www.nginx.com/resources/glossary/layer-7-load-balancing/
+ 
+Apache mod_proxy_balancer module and Sticky session: 
+https://httpd.apache.org/docs/2.4/mod/mod_proxy_balancer.html
+ 
+https://kemptechnologies.com/uk/load-balancing/http-load-balancer/?gclid=CjwKCAiA4rGCBhAQEiwAelVti2T-lpA97ZssiqG1PHROrbfqCPTN0yz_LgoMQDxXleJ09WoDa619FRoC-XAQAvD_BwE
+ 
+ 
+ 
 
  
