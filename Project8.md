@@ -25,5 +25,14 @@ In this project we will enhance our Tooling Website solution by adding a Load Ba
 Task
 Deploy and configure an Apache Load Balancer for Tooling Website solution on a separate Ubuntu EC2 intance. Make sure that users can be served by Web servers through the Load Balancer.We will implement this solution with 2 Web Servers, the approach will be the same for 3 and more Web Servers.
 
+![2](https://user-images.githubusercontent.com/78465247/111722014-ed9e3480-8858-11eb-9be0-574cd16af378.PNG)
+
+Prerequisites
+Ensure that the instances below are created on AWS: 
+Two RHEL8 Web Servers:(Web servers 1&2 as configured in Project 7)
+One MySQL DB Server for Apache LB (based on Ubuntu 20.04)
+One RHEL8 NFS server
+
+![3](https://user-images.githubusercontent.com/78465247/111722040-f7c03300-8858-11eb-8bf4-2c0dc122224d.PNG)
 
 
