@@ -12,7 +12,7 @@ How it works:
 When we access a website in the Internet we use an URL and we do not really know how many servers are out there serving our requests, this complexity is hidden from a regular user, but in case of websites that are being visited by millions of users per day (like Google or Reddit) it is impossible to serve all the users from a single Web Server (it is also applicable to databases, but for now we will not focus on distributed DBs).
 Each URL contains a domain name part, which is translated (resolved) to the IP address of a target server that will serve requests when opening a website on the Internet. Translation (resolution) of domain names is performed by DNS servers, the most commonly used one has a public IP address 8.8.8.8 and belongs to Google. You can try to query it with nslookup command:
  
-nslookup 8.8.8.8; Server:  UnKnown
+nslookup 8.8.8.8; Server:  UnKnown\
 Address:  103.86.99.99; Name:  dns.google; Address:  8.8.8.8
  
 When you have just one Web server and load increases - you want to serve more and more customers, you can add more CPU and RAM or completely replace the server with a more powerful one - this is called “vertical scaling”. This approach has limitations - at some point you reach the maximum capacity of CPU and RAM that can be installed into your server.
@@ -27,12 +27,40 @@ Deploy and configure an Apache Load Balancer for Tooling Website solution on a s
 
 ![2](https://user-images.githubusercontent.com/78465247/111722014-ed9e3480-8858-11eb-9be0-574cd16af378.PNG)
 
-Prerequisites
+Prerequisites\
 Ensure that the instances below are created on AWS: 
-Two RHEL8 Web Servers:(Web servers 1&2 as configured in Project 7)
-One MySQL DB Server for Apache LB (based on Ubuntu 20.04)
-One RHEL8 NFS server
+
+1.  Two RHEL8 Web Servers:(Web servers 1&2 as configured in Project 7)
+2.  One MySQL DB Server for Apache LB (based on Ubuntu 20.04)
+3.  One RHEL8 NFS server
 
 ![3](https://user-images.githubusercontent.com/78465247/111722040-f7c03300-8858-11eb-8bf4-2c0dc122224d.PNG)
 
+![4](https://user-images.githubusercontent.com/78465247/111722326-8af96880-8859-11eb-8d65-e578ac97b617.PNG)
 
+### STEPS:
+ 
+#### 1.  Configure Apache As A Load Balancer
+
+         a.  Create an Ubuntu Server 20.04 EC2 instance and name it Project-8-apache-lb.
+         b.  Create a Security Group and open the TCP port 80 by adjusting the inbound rule.
+         c.  Install Apache Load Balancer on Project-8-apache-lb server and configure it to point traffic coming to LB to both Web Servers:
+ 
+##### Install apache2
+sudo apt update\
+sudo apt install apache2 -y\
+sudo apt-get install libxml2-dev
+ 
+##### Enable following modules:
+sudo a2enmod rewrite\
+sudo a2enmod proxy\
+sudo a2enmod proxy_balancer\
+sudo a2enmod proxy_http\
+sudo a2enmod headers\
+sudo a2enmod lbmethod_bytraffic
+ 
+##### Restart apache2 service
+sudo systemctl restart apache2
+
+##### Output
+ 
