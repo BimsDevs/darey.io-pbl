@@ -23,8 +23,10 @@ Below is our target architecture output
     b.Install JDK (since Jenkins is a Java-based application)
         sudo apt update
         sudo apt install default-jdk-headless
+	
 
 <img src="https://user-images.githubusercontent.com/78465247/112415897-91d22080-8d1c-11eb-9dbf-7a198727e69e.PNG" width="800" height="400">
+
 
     c. Install Jenkins
 
@@ -43,13 +45,16 @@ Below is our target architecture output
            
   <img src="https://user-images.githubusercontent.com/78465247/112415027-05732e00-8d1b-11eb-810d-314c1495eb23.PNG" width="700" height="400">
   
+  
   d. Start the Jenkins Server as Jenkins has been installed\
        	   sudo systemctl start jenkins
  
   e. Verify that Jenkins is up and running\
            sudo systemctl status jenkins
       
+      
   <img src="https://user-images.githubusercontent.com/78465247/112416138-0016e300-8d1d-11eb-858e-34c9cdcb4f13.PNG"  width="800" height="400">
+  
   
   f. Open TCP port 8080 by creating a new Inbound rule in EC2 Security Group. By default Jenkins server uses this port.
      ![23](https://user-images.githubusercontent.com/78465247/112418516-87665580-8d21-11eb-8a0e-83fe2c66170c.PNG)
@@ -62,7 +67,7 @@ Below is our target architecture output
 	 http://35.177.4.83:8080
 
 
-#### Output:
+### Output:
   <img src="https://user-images.githubusercontent.com/78465247/112418720-f3e15480-8d21-11eb-896c-cee2c0e2e21c.PNG" width="800" height="400">
   
 There will be a prompt to provide a default admin password.This can be retrieved from the server using the command below:
@@ -91,7 +96,9 @@ There will be a prompt to provide a default admin password.This can be retrieved
 
    <img src="https://user-images.githubusercontent.com/78465247/112419743-d90fdf80-8d23-11eb-9ca9-834dc5712282.PNG" width="800" height="400">
    
+   
    The installation is completed!
+   
  
 ### Step 2 - Configure Jenkins to retrieve source codes from GitHub using Webhooks
 In this part, you will learn how to configure a simple Jenkins job/project (these two terms can be used interchangeably). This job will be triggered by GitHub webhooks and will execute a ‘build’ task to retrieve codes from GitHub and store it locally on Jenkins server.
@@ -114,8 +121,7 @@ In this part, you will learn how to configure a simple Jenkins job/project (thes
    h. Click on Add Webhook
  
  
-#### Output
-
+### Output
  <img src="https://user-images.githubusercontent.com/78465247/112420457-2476bd80-8d25-11eb-9b6e-40bfd8c9fea3.PNG" width="800" height="400">
  
  
@@ -159,11 +165,14 @@ Click “Configure” your job/project and add these two configurations
 
       a.Configure triggering the job from GitHub webhook:
       
-      ![22](https://user-images.githubusercontent.com/78465247/112426096-378e8b00-8d2f-11eb-8832-e2bd5ba2a5e7.PNG)
-  
+       
+      
+  ![37](https://user-images.githubusercontent.com/78465247/112485054-6aa63e00-8d72-11eb-8fe1-02fae63856bf.PNG)
+
        
       b. Configure “Post-build Actions” to archive all the files - files resulted from a build are called “artifacts”.\
            *Click on Post-Build Action and select archive artifacts and save.
+	   
 
    ![23](https://user-images.githubusercontent.com/78465247/112426118-42492000-8d2f-11eb-9953-d586a79586e7.PNG)
 
@@ -187,8 +196,10 @@ On main dashboard select “Manage Jenkins” and choose “Manage Plugins” me
  
 On “Available” tab search for “Publish Over SSH” plugin and install it by clicking on ‘install without restart’
 
+
 ![31](https://user-images.githubusercontent.com/78465247/112424100-bb467880-8d2b-11eb-8591-60e76a74d436.PNG)
 ![25](https://user-images.githubusercontent.com/78465247/112424139-d0230c00-8d2b-11eb-879f-cc990b46a27b.PNG)
+
 
 
 #### 2. Configure the job/project to copy artifacts over to NFS server.
@@ -197,6 +208,7 @@ On main dashboard select “Manage Jenkins” and choose “Configure System” 
 
 
 ![26](https://user-images.githubusercontent.com/78465247/112424267-095b7c00-8d2c-11eb-962e-c538d0ef44ad.PNG)
+
 
 Scroll down to Publish over SSH plugin configuration section and configure it to be able to connect to your NFS server:
  
@@ -210,12 +222,15 @@ f. Test the configuration and make sure the connection returns Success. Remember
 Grant permission so that Jenkins can access /mnt/apps in NFS server: \
 	chown ec2-user:ec2-user /mnt/apps/
 
+
 ![29](https://user-images.githubusercontent.com/78465247/112426463-e6cb6200-8d2f-11eb-8877-14b9aee49c23.PNG)
 
 ![27](https://user-images.githubusercontent.com/78465247/112426542-02366d00-8d30-11eb-9f29-0ccae5a04ed5.PNG)
 
 
+
 Save the configuration, open your Jenkins job/project configuration page and add another “Post-build Action”
+
 
 ![28](https://user-images.githubusercontent.com/78465247/112426722-53def780-8d30-11eb-8879-23761a0ac6f7.PNG)
 
@@ -223,6 +238,51 @@ Save the configuration, open your Jenkins job/project configuration page and add
 We need to configure it to send all files produced by the build into the previously defined remote directory. The task here is to copy all files and directories - so we use (**). 
 
 Otherwise, we can use [this syntax](http://ant.apache.org/manual/dirtasks.html#patterns) can be used If you want to apply some particular pattern to define which files to send.
+ 
+### Test if configuration is working:
+Change something in the README.MD file in the GitHub Tooling repository. Webhook will trigger a new job and in the “Console Output” of the job you will find something like this:
+
+![36](https://user-images.githubusercontent.com/78465247/112482791-52cdba80-8d70-11eb-8bd2-c2c28aa67d5a.PNG)
+
+
+Output below shows that a new job #3 has been created as a result of the push from Github with the Webhook. 
+
+
+<img src="https://user-images.githubusercontent.com/78465247/112482483-06827a80-8d70-11eb-846f-1474936943c6.PNG" width="800" height="400">
+
+<img src="https://user-images.githubusercontent.com/78465247/112482557-1bf7a480-8d70-11eb-8942-075debad3055.PNG" width="800" height="400">
+
+
+SSH: Transferred 25 file(s) \
+Finished: SUCCESS
+
+The above confirms that the files have been successfully transferred over the SSH 
+
+To make sure that the files in /mnt/apps have been updated - connect via SSH/Putty to your NFS server and check README.MD file
+
+		cat /mnt/apps/README.md
+
+
+![33](https://user-images.githubusercontent.com/78465247/112482641-2f0a7480-8d70-11eb-9743-714a59144ed0.PNG)
+
+
+Changes made in the README.md file is evidenced and this confirms that the Jenkins job is working fine. 
+ 
+
+
+
+
+
+#### Credits
+ 
+darey.io
+ 
+Continuous integration/delivery/deployment: https://circleci.com/continuous-integration/
+
+Jenkins: https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-ubuntu-20-04
+
+
+
 
 
        
