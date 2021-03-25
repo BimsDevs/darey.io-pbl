@@ -69,8 +69,8 @@ There will be a prompt to provide a default admin password.This can be retrieved
 
 			sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
-               
-     ![23](https://user-images.githubusercontent.com/78465247/112419159-d1037000-8d22-11eb-8624-626acafdee6a.PNG)  
+               ![7](https://user-images.githubusercontent.com/78465247/112429030-02386c00-8d34-11eb-828d-e86755362da2.PNG)
+
                
   <img src="https://user-images.githubusercontent.com/78465247/112419004-7e29b880-8d22-11eb-9159-0f23efea005e.PNG" width="700" height="400">
   
