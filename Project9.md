@@ -52,23 +52,28 @@ Below is our target architecture output
   <img src="https://user-images.githubusercontent.com/78465247/112416138-0016e300-8d1d-11eb-858e-34c9cdcb4f13.PNG"  width="800" height="400">
   
   f. Open TCP port 8080 by creating a new Inbound rule in EC2 Security Group. By default Jenkins server uses this port.
-  <img src="https://user-images.githubusercontent.com/78465247/112418516-87665580-8d21-11eb-8a0e-83fe2c66170c.PNG"  width="800" height="400">
+     ![23](https://user-images.githubusercontent.com/78465247/112418516-87665580-8d21-11eb-8a0e-83fe2c66170c.PNG)
     
   g. Perform initial Jenkins setup.
-          Go into the web browser to access Jenkins.\
-               http://<Jenkins-Server-Public-IP-Address-or-Public-DNS-Name>:8080\
-             	 http://35.177.4.83:8080
+          Go into the web browser to access Jenkins.
+
+	 http://<Jenkins-Server-Public-IP-Address-or-Public-DNS-Name>:8080
+
+	 http://35.177.4.83:8080
+
 
 #### Output:
   <img src="https://user-images.githubusercontent.com/78465247/112418720-f3e15480-8d21-11eb-896c-cee2c0e2e21c.PNG" width="800" height="400">
   
 There will be a prompt to provide a default admin password.This can be retrieved from the server using the command below:
 
-               sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+			sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
                
-  <img src="https://user-images.githubusercontent.com/78465247/112419159-d1037000-8d22-11eb-8624-626acafdee6a.PNG"  width="800" height="400">
+     ![23](https://user-images.githubusercontent.com/78465247/112419159-d1037000-8d22-11eb-8624-626acafdee6a.PNG)  
                
-  <img src="https://user-images.githubusercontent.com/78465247/112419004-7e29b880-8d22-11eb-9159-0f23efea005e.PNG" width="800" height="400">
+  <img src="https://user-images.githubusercontent.com/78465247/112419004-7e29b880-8d22-11eb-9159-0f23efea005e.PNG" width="700" height="400">
+  
   
   Then you will be asked which plugings to install - choose suggested plugins
   
@@ -100,15 +105,14 @@ In this part, you will learn how to configure a simple Jenkins job/project (thes
    c.  Click on Webhooks on the menu \
    d.  Add Webhooks\
    e.  Go to the Payload box and input the URL: \
-            http://jenkins_server_public_ip _address.github-webhook/\
+            http://jenkins_server_public_ip _address.github-webhook/
  
-            http://52.56.144.83:8080/github-webhook/\
+            http://52.56.144.83:8080/github-webhook/
 
    f. Content type: Application/jason\
    g. Select just the hook event\
-   h. Click on Add Webhook\
+   h. Click on Add Webhook
  
- '''
  
 #### Output
 
@@ -151,15 +155,18 @@ The above output confirms it is running. However, this still needs to be automat
  
 ### 4. Automate Jenkins job that receives files from GitHub by webhook trigger
 
-Click “Configure” your job/project and add these two configurations\
+Click “Configure” your job/project and add these two configurations
+
       a.Configure triggering the job from GitHub webhook:
       
-       ![22](https://user-images.githubusercontent.com/78465247/112423048-d9ab7480-8d29-11eb-8a7f-ee44faf10ac3.PNG)
+      ![22](https://user-images.githubusercontent.com/78465247/112426096-378e8b00-8d2f-11eb-8832-e2bd5ba2a5e7.PNG)
+  
        
-     b. Configure “Post-build Actions” to archive all the files - files resulted from a build are called “artifacts”.\
+      b. Configure “Post-build Actions” to archive all the files - files resulted from a build are called “artifacts”.\
            *Click on Post-Build Action and select archive artifacts and save.
 
-        ![23](https://user-images.githubusercontent.com/78465247/112423266-34dd6700-8d2a-11eb-9aac-d04bd86e01e4.PNG)
+   ![23](https://user-images.githubusercontent.com/78465247/112426118-42492000-8d2f-11eb-9953-d586a79586e7.PNG)
+
 
 
 The confirms the creation of an automated Jenkins job that receives files from GitHub by webhook trigger (this method is considered as ‘push’ because the changes are being ‘pushed’ and files transfer is initiated by GitHub). There are also other methods: trigger one job (downstreadm) from another (upstream), poll GitHub periodically and others.
@@ -203,11 +210,19 @@ f. Test the configuration and make sure the connection returns Success. Remember
 Grant permission so that Jenkins can access /mnt/apps in NFS server: \
 	chown ec2-user:ec2-user /mnt/apps/
 
+![29](https://user-images.githubusercontent.com/78465247/112426463-e6cb6200-8d2f-11eb-8877-14b9aee49c23.PNG)
+
+![27](https://user-images.githubusercontent.com/78465247/112426542-02366d00-8d30-11eb-9f29-0ccae5a04ed5.PNG)
 
 
+Save the configuration, open your Jenkins job/project configuration page and add another “Post-build Action”
+
+![28](https://user-images.githubusercontent.com/78465247/112426722-53def780-8d30-11eb-8879-23761a0ac6f7.PNG)
 
 
+We need to configure it to send all files produced by the build into the previously defined remote directory. The task here is to copy all files and directories - so we use (**). 
 
+Otherwise, we can use [this syntax](http://ant.apache.org/manual/dirtasks.html#patterns) can be used If you want to apply some particular pattern to define which files to send.
 
 
        
