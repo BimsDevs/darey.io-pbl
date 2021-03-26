@@ -151,12 +151,9 @@ Save the configuration and let us try to run the build. For now we can only do i
 ![21](https://user-images.githubusercontent.com/78465247/112422396-baf8ae00-8d28-11eb-924b-15650acb40df.PNG)
 
 
-Above output confirm that the Jenkins Build was successful
- 
-Verify that the Jenkins build was successful:\
+##### Verify that the Jenkins build was successful:
 Open the build and check in “Console Output” if it has run successfully.
- 
- 
+  
 The above output confirms it is running. However, this still needs to be automated as it is currently only running when we trigger it manually. 
  
  
