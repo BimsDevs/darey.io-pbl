@@ -179,9 +179,118 @@ f. Choose Allocate.
     
     
 ## Outputs
-![8](https://user-images.githubusercontent.com/78465247/114280375-d6ee9600-9a30-11eb-8668-3459407da169.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/114280375-d6ee9600-9a30-11eb-8668-3459407da169.PNG" width="600" height="400">
 
-![9](https://user-images.githubusercontent.com/78465247/114280377-da821d00-9a30-11eb-9673-ab248b89f99f.PNG)
+<img src="https://user-images.githubusercontent.com/78465247/114280377-da821d00-9a30-11eb-9673-ab248b89f99f.PNG" width="600" height="400">
+
+
+  5. Open Firewall:
+    This will ensure that the Web Servers can be reached from the browser using the new domain name using HTTP protocol:
+ -  http://<your-domain-name.com> \
+    https://bimsie.godaddysites.com/
+ 
+### Open ports - http and https on EC2
+
+![10](https://user-images.githubusercontent.com/78465247/114280506-7e6bc880-9a31-11eb-8d5c-b36c7b9baac7.PNG)
+
+
+ 6. Configure Nginx to recognize the new domain name
+  We will ensure that the ‘www.domain.com’ is replaced with the actual server name - www.bimsie.godaddysites.com within the nginx configuration file: /etc/nginx/nginx.conf.
+  I used the httpd access log file to confirm that the web application (propitix) is hosted on each of the web servers using the load balancer config on nginx by using the   	   command:
+
+sudo cat /var/log/httpd/access_log
+
+### Web1:
+![Web1](https://user-images.githubusercontent.com/78465247/114280562-c38ffa80-9a31-11eb-87d9-b4469298328f.PNG)
+
+
+### Web2:
+![Web 2](https://user-images.githubusercontent.com/78465247/114280581-d9052480-9a31-11eb-94da-674362e7cbd8.PNG)
+
+
+
+7. SSL / TLS Certificate: Installing certbot and request for an SSL/TLS certificate
+ Make sure snapd service is active and running:
+ 
+sudo apt update \
+sudo apt install snapd \
+sudo systemctl status snapd
+
+![ngnix status](https://user-images.githubusercontent.com/78465247/114280647-326d5380-9a32-11eb-8c8b-73b04a4f0208.PNG)
+
+
+#### Install certbot
+sudo snap install --classic certbot
+ 
+Request your certificate. \
+Follow the certbot instructions and  choose which domain you want your certificate to be issued for. The domain name will be looked up from nginx.conf file hence the reason for updating the nginx.config file with the correct domain name. 
+ 
+sudo ln -s /snap/bin/certbot /usr/bin/certbot \
+sudo certbot --nginx \
+sudo certbot register --update --email gbemisola6@gmail.com
+ 
+Test secured access to the Web Solution by trying to reach our website \
+https://<your-domain-name.com> \
+https://bimsie.godaddysites.com
+ 
+Access the website by using HTTPS protocol (that uses TCP port 443) and see a padlock pictogram in the browser’s search string. Click on the padlock icon and you can see the details of the certificate issued for your website.
+
+![11](https://user-images.githubusercontent.com/78465247/114280724-8d9f4600-9a32-11eb-94bf-8f9dae571fd9.PNG)
+
+
+8. Set up periodical renewal of your SSL/TLS certificate
+By default, LetsEncrypt certificate is valid for 90 days, so it is recommended to renew it at least every 60 days or more frequently.
+ 
+Test renewal command in dry-run mode \
+sudo certbot renew --dry-run
+
+![DRY JIN](https://user-images.githubusercontent.com/78465247/114280798-f5559100-9a32-11eb-84f2-54fd6c7e8a27.PNG)
+
+
+Best practice is to have a scheduled job that runs a renew command periodically. 
+ 
+We will now configure a Cronjob to run the command twice a day. This is done by editing the crontab file with ‘crontab -e’ command as below:
+
+Steps:
+Check if Crontab is installed:  crontab -l \
+Install Crontab:  crontab -e \
+Choose nano as the editor \
+Add following line:   * */12 * * *   root /usr/bin/certbot renew > /dev/null 2>&1 \
+Save and close file. This schedule can always be adjusted by amending the schedule expression. 
+
+
+![z](https://user-images.githubusercontent.com/78465247/114280982-b4aa4780-9a33-11eb-8182-2aafff342cdb.PNG)
+
+<img src="https://user-images.githubusercontent.com/78465247/114280888-48c7df00-9a33-11eb-9c7b-87afdaa3c0a4.PNG" width="600" height="400">
+
+
+
+
+Credits:
+
+darey.io
+
+How SSL works: https://www.youtube.com/watch?v=T4Df5_cojAs
+
+HTTP Load Balancing: https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/
+
+DNS Record Types: https://www.cloudflare.com/learning/dns/dns-records/
+
+Cronjob Generator: https://crontab-generator.org/
+
+https://crontab.guru/
+
+https://www.serverlab.ca/category/tutorials/linux/web-servers-linux/
+ 
+https://www.serverlab.ca/tutorials/linux/web-servers-linux/how-to-configure-multiple-domains-with-nginx-on-ubuntu/
+
+
+
+
+
+
+
+
 
 
 
