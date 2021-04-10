@@ -105,7 +105,7 @@ server { \
 #include /etc/nginx/sites-enabled/*; 
 
 ## Output
-<img src="https://user-images.githubusercontent.com/78465247/114277221-385b3880-9a22-11eb-9c70-0da6a9b56159.PNG" width="600" height="400">
+<img src="https://user-images.githubusercontent.com/78465247/114287017-96584200-9a5b-11eb-8280-a14f58494ad1.PNG" width="600" height="400">
 
 
 ### Restart Nginx and make sure the service is up and running
@@ -128,9 +128,9 @@ Test that nginx has been installed - I browsed the public IP of the EC2 instance
 This involves making necessary configurations in order to make connections to our Tooling Web Solution secured. 
   1. register a new domain name using any Domain name registrar - a company that manages reservation of domain names. The most popular ones are: Godaddy.com, Domain.com,     
      Bluehost.com.\
-     I used Godaddy.com to register a new domain name and in ‘.com’ domain zone.
+     I used freenom.com to register a new domain name and in ‘.com’ domain zone.
 
-			https://bimsie.godaddysites.com/
+			http://www.bimstack.tk
 
  
   2. Allocate an Elastic IP and associate it with an EC2 server
@@ -170,24 +170,27 @@ f. Choose Allocate.
 
 
   4. Update 'A' record in the registrar to point to Nginx LB using Elastic IP Address
-    We do this by Associating / connecting the Elastic IP to the domain (https://bimsie.godaddysites.com/) with the steps below: \
-    a. Go to GoDaddy’s Domain Manager. \
-    b. Go to the Manage DNS of the domain you are integrating. \
+    We do this by Associating / connecting the Elastic IP to the domain (http://www.bimstack.tk/) with the steps below: \
+    a. Go to Services and click on My Domains and Manage domain \
+    b. Go to the DNS Management section of the DNS of the domain you are integrating. \
     c. Replace the Value of record with Type A with the elastic IP you just created. \
     d. Wait for changes to reflect (This takes at least 600 seconds to reflect, depending on the TTL you specified). \
     e. To check if successful, the domain should now load the EC2 instance you pointed to.
     
     
 ## Outputs
-<img src="https://user-images.githubusercontent.com/78465247/114280375-d6ee9600-9a30-11eb-8668-3459407da169.PNG" width="600" height="400">
+![zee 1](https://user-images.githubusercontent.com/78465247/114286888-9572e080-9a5a-11eb-87a4-2fe2991ede54.PNG)
 
-<img src="https://user-images.githubusercontent.com/78465247/114280377-da821d00-9a30-11eb-9673-ab248b89f99f.PNG" width="600" height="400">
+![zee 2](https://user-images.githubusercontent.com/78465247/114286890-9ad02b00-9a5a-11eb-88fe-709f50f833c7.PNG)
+
+![zee 3](https://user-images.githubusercontent.com/78465247/114286892-9e63b200-9a5a-11eb-8870-90199636e1b0.PNG)
+
 
 
   5. Open Firewall:
     This will ensure that the Web Servers can be reached from the browser using the new domain name using HTTP protocol:
  -  http://<your-domain-name.com> \
-    https://bimsie.godaddysites.com/
+ -  https://bimstack.tk/
  
 ### Open ports - http and https on EC2
 
@@ -228,14 +231,23 @@ Follow the certbot instructions and  choose which domain you want your certifica
 sudo ln -s /snap/bin/certbot /usr/bin/certbot \
 sudo certbot --nginx \
 sudo certbot register --update --email gbemisola6@gmail.com
+
+## Output
+<img src="https://user-images.githubusercontent.com/78465247/114287147-7ffeb600-9a5c-11eb-8e85-91831c73b8fd.PNG"  width="600" height="400"> 
+
  
 Test secured access to the Web Solution by trying to reach our website \
 https://<your-domain-name.com> \
-https://bimsie.godaddysites.com
- 
+https://bimstack.tk
+
+<img src="https://user-images.githubusercontent.com/78465247/114287582-cefa1a80-9a5f-11eb-9019-6c96adce8f4d.PNG" width="600" height="400"> 
+<img src="https://user-images.githubusercontent.com/78465247/114287608-05379a00-9a60-11eb-955c-c2dda6f6a2c7.PNG" width="600" height="400"> 
+
+
 Access the website by using HTTPS protocol (that uses TCP port 443) and see a padlock pictogram in the browser’s search string. Click on the padlock icon and you can see the details of the certificate issued for your website.
 
-![11](https://user-images.githubusercontent.com/78465247/114280724-8d9f4600-9a32-11eb-94bf-8f9dae571fd9.PNG)
+### Output
+<img src="https://user-images.githubusercontent.com/78465247/114287534-7dea2680-9a5f-11eb-86c1-3605c46d98b4.PNG" width="600" height="400"> 
 
 
 8. Set up periodical renewal of your SSL/TLS certificate
@@ -244,7 +256,8 @@ By default, LetsEncrypt certificate is valid for 90 days, so it is recommended t
 Test renewal command in dry-run mode \
 sudo certbot renew --dry-run
 
-![DRY JIN](https://user-images.githubusercontent.com/78465247/114280798-f5559100-9a32-11eb-84f2-54fd6c7e8a27.PNG)
+### Output
+<img src="https://user-images.githubusercontent.com/78465247/114287674-8bec7700-9a60-11eb-958a-fa6d924be009.PNG" width="600" height="400"> 
 
 
 Best practice is to have a scheduled job that runs a renew command periodically. 
