@@ -159,7 +159,7 @@ f. Choose Allocate.
  ![3](https://user-images.githubusercontent.com/78465247/114278340-43fd2e00-9a27-11eb-82fc-8080ee24590b.PNG)
  
  
-#### Please note: Allocated Elastic IP address: 35.178.214.102
+### Please note: Allocated Elastic IP address is 35.178.214.102
 
 ![4](https://user-images.githubusercontent.com/78465247/114278712-fd103800-9a28-11eb-9785-d00d8142c12f.PNG)
 
