@@ -131,7 +131,7 @@ This involves making necessary configurations in order to make connections to ou
      I used freenom.com to register a new domain name and in ‘.com’ domain zone.
 
 			http://www.bimstack.tk
-
+<br/><br/> 
  
   2. Allocate an Elastic IP and associate it with an EC2 server
   In order to avoid EC2 public IP address changing at reboot, I had to allocate it and enable a static IP address that does not change after reboot and then associate it with     the EC2 server. 
@@ -145,6 +145,8 @@ d. I have chosen Amazon's pool of IPv4 addresses, since the IPv4 address is to b
 e. (Optional) Add or remove a tag. \
 f. Choose Allocate. 
  
+<br/><br/> 
+
  3. Connect elastic IP address to Nginx LB  instance
     After creating and allocating the the elastic IP address, we will now connect it to the connect it to the Ngnix LB EC2 instance with the steps below:
       a. Click Allocate new address in the Elastic IPs page. \
@@ -166,8 +168,9 @@ f. Choose Allocate.
 <img src="https://user-images.githubusercontent.com/78465247/114278406-a6eec500-9a27-11eb-8102-fdca9f27e49a.PNG" width="600" height="400">
 
 <img src="https://user-images.githubusercontent.com/78465247/114278409-abb37900-9a27-11eb-94f9-b6bef6ec8a08.PNG" width="600" height="400">
- \
 
+
+<br/><br/> 
 
   4. Update 'A' record in the registrar to point to Nginx LB using Elastic IP Address
     We do this by Associating / connecting the Elastic IP to the domain (http://www.bimstack.tk/) with the steps below: \
@@ -185,7 +188,7 @@ f. Choose Allocate.
 
 ![zee 3](https://user-images.githubusercontent.com/78465247/114286892-9e63b200-9a5a-11eb-8870-90199636e1b0.PNG)
 
-
+<br/><br/> 
 
   5. Open Firewall:
     This will ensure that the Web Servers can be reached from the browser using the new domain name using HTTP protocol:
@@ -196,6 +199,7 @@ f. Choose Allocate.
 
 ![10](https://user-images.githubusercontent.com/78465247/114280506-7e6bc880-9a31-11eb-8d5c-b36c7b9baac7.PNG)
 
+<br/><br/> 
 
  6. Configure Nginx to recognize the new domain name
   We will ensure that the ‘www.domain.com’ is replaced with the actual server name - www.bimstack.tk within the nginx configuration file: /etc/nginx/nginx.conf.
@@ -210,7 +214,7 @@ sudo cat /var/log/httpd/access_log
 ### Web2:
 ![Web 2](https://user-images.githubusercontent.com/78465247/114280581-d9052480-9a31-11eb-94da-674362e7cbd8.PNG)
 
-
+<br/><br/> 
 
 7. SSL / TLS Certificate: Installing certbot and request for an SSL/TLS certificate
  Make sure snapd service is active and running:
@@ -221,6 +225,7 @@ sudo systemctl status snapd
 
 ![ngnix status](https://user-images.githubusercontent.com/78465247/114280647-326d5380-9a32-11eb-8c8b-73b04a4f0208.PNG)
 
+<br/><br/> 
 
 #### Install certbot
 sudo snap install --classic certbot
@@ -249,6 +254,7 @@ Access the website by using HTTPS protocol (that uses TCP port 443) and see a pa
 ### Output
 <img src="https://user-images.githubusercontent.com/78465247/114287534-7dea2680-9a5f-11eb-86c1-3605c46d98b4.PNG" width="600" height="400"> 
 
+<br/><br/> 
 
 8. Set up periodical renewal of your SSL/TLS certificate
 By default, LetsEncrypt certificate is valid for 90 days, so it is recommended to renew it at least every 60 days or more frequently.
@@ -259,6 +265,7 @@ sudo certbot renew --dry-run
 ### Output
 <img src="https://user-images.githubusercontent.com/78465247/114287674-8bec7700-9a60-11eb-958a-fa6d924be009.PNG" width="600" height="400"> 
 
+<br/><br/> 
 
 Best practice is to have a scheduled job that runs a renew command periodically. 
  
@@ -274,7 +281,15 @@ Save and close file. This schedule can always be adjusted by amending the schedu
 
 ![z](https://user-images.githubusercontent.com/78465247/114280982-b4aa4780-9a33-11eb-8182-2aafff342cdb.PNG)
 
-<img src="https://user-images.githubusercontent.com/78465247/114280888-48c7df00-9a33-11eb-9c7b-87afdaa3c0a4.PNG" width="600" height="400">
+<img src="https://user-images.githubusercontent.com/78465247/114280888-48c7df00-9a33-11eb-9c7b-87afdaa3c0a4.PNG" width="600" height="400">  
+
+
+<br/><br/> 
+
+<br/><br/> 
+
+<br/><br/> 
+  
 
 
 
