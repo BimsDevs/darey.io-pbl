@@ -198,7 +198,7 @@ f. Choose Allocate.
 
 
  6. Configure Nginx to recognize the new domain name
-  We will ensure that the ‘www.domain.com’ is replaced with the actual server name - www.bimsie.godaddysites.com within the nginx configuration file: /etc/nginx/nginx.conf.
+  We will ensure that the ‘www.domain.com’ is replaced with the actual server name - www.bimstack.tk within the nginx configuration file: /etc/nginx/nginx.conf.
   I used the httpd access log file to confirm that the web application (propitix) is hosted on each of the web servers using the load balancer config on nginx by using the   	   command:
 
 sudo cat /var/log/httpd/access_log
@@ -264,7 +264,7 @@ Best practice is to have a scheduled job that runs a renew command periodically.
  
 We will now configure a Cronjob to run the command twice a day. This is done by editing the crontab file with ‘crontab -e’ command as below:
 
-Steps:
+Steps: \
 Check if Crontab is installed:  crontab -l \
 Install Crontab:  crontab -e \
 Choose nano as the editor \
@@ -279,7 +279,7 @@ Save and close file. This schedule can always be adjusted by amending the schedu
 
 
 
-Credits:
+### Credits:
 
 darey.io
 
