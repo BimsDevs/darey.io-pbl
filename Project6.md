@@ -1,6 +1,6 @@
 
 
-Web Solution With WordPress
+## Web Solution With WordPress
 
 This project has to do with preparing storage infrastructures on two linux servers and implementing a web solution using wordPress.
 
